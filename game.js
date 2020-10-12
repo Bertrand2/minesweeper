@@ -55,6 +55,8 @@ function generateGrid(bombAmount = 10){
     mines.innerText = `${realBombAmount}`;
 
     flagged = 0;
+    flags.innerText = `${flagged}`;
+
     time = 0;
     gameRunning = true;
     timeInterval = setInterval(timing, 1000);
