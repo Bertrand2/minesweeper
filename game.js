@@ -33,8 +33,16 @@ function generateGrid(bombAmount = 10){
     cells = document.getElementsByClassName("cell");
 
     for(let i=0 ; i<cells.length ; i++){
-        cells[i].addEventListener("click", ()=>{
+        cells[i].childNodes[1].addEventListener("contextmenu", (event)=>{
+            placeFlag(cells[i]);
+            event.preventDefault();
+        });
+        cells[i].childNodes[1].addEventListener("click", ()=>{
             revealCell(cells,i,bombAmount);
+        });
+        cells[i].childNodes[3].addEventListener("contextmenu", (event)=>{
+            removeFlag(cells[i]);
+            event.preventDefault();
         });
     }
 }
@@ -107,6 +115,11 @@ function createNewCell(content){
     hiddenImage.setAttribute("src" , `assets/hidden.png`);
     newCell.appendChild(hiddenImage);
 
+    let flagImage = document.createElement("img");
+    flagImage.style.visibility = "hidden";
+    flagImage.setAttribute("src" , `assets/flag.png`);
+    newCell.appendChild(flagImage);
+
     return newCell;
 }
 
@@ -119,7 +132,7 @@ function revealCell(cells,i,bombAmount){
     }
 
     cells[i].childNodes[1].style.visibility = "hidden";
-    cells[i].lastChild.style.visibility = "hidden";
+    cells[i].childNodes[2].style.visibility = "hidden";
 
     cells[i].isRevealed = "true";
 
@@ -208,4 +221,12 @@ function checkGameEnd(cells,i,bombAmount){
         document.getElementById("victory").style.visibility = "visible";
         document.getElementById("victory").style.opacity = "100%";
     }
+}
+
+function placeFlag(cell){
+    cell.childNodes[3].style.visibility = "visible";
+}
+
+function removeFlag(cell){
+    cell.childNodes[3].style.visibility = "hidden";
 }
