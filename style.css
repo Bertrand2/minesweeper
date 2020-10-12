@@ -1,0 +1,55 @@
+*{
+    padding: 0;
+    margin: 0;
+}
+
+:root{
+    --size-cell : 64px;
+    --size-grid : 512px;
+    --size-border : 16px;
+}
+
+body{
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+
+    height: 100vh;
+}
+
+header{
+    margin: 15px;
+}
+
+.gameContainer{
+    display: flex;
+    flex-direction: row;
+    flex-wrap: wrap;
+    align-content: flex-start;
+
+    width: var(--size-grid);
+    height: var(--size-grid);
+
+    border: var(--size-border) solid #999999;
+}
+
+.cell{
+    height: var(--size-cell);
+    width: var(--size-cell);
+}
+.cell>img{
+    height: var(--size-cell);
+    width: var(--size-cell);
+
+    position: absolute;
+
+    image-rendering: crisp-edges;
+}
+
+.cell>.hidden:hover{
+    visibility: hidden;
+}
+.hover:hover+.hidden{
+    visibility: hidden;
+}
