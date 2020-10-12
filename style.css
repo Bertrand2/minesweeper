@@ -20,6 +20,17 @@ body{
 
 header{
     margin: 15px;
+    display: flex;
+    flex-direction: row;
+    justify-content: space-evenly;
+    align-items: center;
+
+    width: var(--size-grid);
+}
+
+#timer{
+    width: var(--size-cell);
+    text-align: right;
 }
 
 main{

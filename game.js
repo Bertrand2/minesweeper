@@ -3,14 +3,16 @@
 let gameBox = document.getElementById("gameBox");
 const newGameButton = document.getElementById("newGameButton");
 const input = document.getElementById("bombsInput");
+const timer = document.getElementById("timer");
 
-let cells, bombs;
+let cells, bombs, gameRunning = false, time, timeInterval;
 
 const gridSize = 8;
 
 generateGrid(10);
 
 newGameButton.addEventListener("click" , ()=>{
+    gameRunning = false;
     gameBox.innerHTML="";
     document.getElementById("gameover").style.opacity = 0;
     document.getElementById("gameover").style.visibility = "hidden";
@@ -45,6 +47,11 @@ function generateGrid(bombAmount = 10){
             event.preventDefault();
         });
     }
+
+    time = 0;
+    gameRunning = true;
+    timeInterval = setInterval(timing, 1000);
+
 }
 
 function placeBombs(board, bombAmount){
@@ -204,6 +211,7 @@ function checkGameEnd(cells,i,bombAmount){
         console.log("Defeat !");
         document.getElementById("gameover").style.visibility = "visible";
         document.getElementById("gameover").style.opacity = "100%";
+        gameRunning = false;
     }
     //victory
     let remainingCells = 0;
@@ -214,12 +222,11 @@ function checkGameEnd(cells,i,bombAmount){
         }
     }
 
-    console.log(remainingCells);
-
     if(remainingCells === bombAmount){
         console.log("Victory !");
         document.getElementById("victory").style.visibility = "visible";
         document.getElementById("victory").style.opacity = "100%";
+        gameRunning = false;
     }
 }
 
@@ -229,4 +236,13 @@ function placeFlag(cell){
 
 function removeFlag(cell){
     cell.childNodes[3].style.visibility = "hidden";
+}
+
+function timing() {
+    if (!gameRunning) {
+        clearInterval(timeInterval);
+    } else {
+        time++;
+        timer.innerText = `${time}s`;
+    }
 }
