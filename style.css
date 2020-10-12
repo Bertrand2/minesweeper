@@ -33,6 +33,11 @@ header{
     text-align: right;
 }
 
+.stats{
+    width: var(--size-cell);
+    text-align: right;
+}
+
 main{
     width: var(--size-grid);
     height: var(--size-grid);

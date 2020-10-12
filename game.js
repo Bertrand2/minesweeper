@@ -4,8 +4,10 @@ let gameBox = document.getElementById("gameBox");
 const newGameButton = document.getElementById("newGameButton");
 const input = document.getElementById("bombsInput");
 const timer = document.getElementById("timer");
+const flags = document.getElementById("flags");
+const mines = document.getElementById("mines");
 
-let cells, bombs, gameRunning = false, time, timeInterval;
+let cells, bombs, gameRunning = false, time, timeInterval, flagged, realBombAmount;
 
 const gridSize = 8;
 
@@ -49,6 +51,10 @@ function generateGrid(bombAmount = 10){
         });
     }
 
+    realBombAmount = countMines(board);
+    mines.innerText = `${realBombAmount}`;
+
+    flagged = 0;
     time = 0;
     gameRunning = true;
     timeInterval = setInterval(timing, 1000);
@@ -223,7 +229,7 @@ function checkGameEnd(cells,i,bombAmount){
         }
     }
 
-    if(remainingCells === bombAmount){
+    if(remainingCells === realBombAmount){
         console.log("Victory !");
         document.getElementById("victory").style.visibility = "visible";
         document.getElementById("victory").style.opacity = "100%";
@@ -233,10 +239,12 @@ function checkGameEnd(cells,i,bombAmount){
 
 function placeFlag(cell){
     cell.childNodes[3].style.visibility = "visible";
+    flags.innerText = `${++flagged}`;
 }
 
 function removeFlag(cell){
     cell.childNodes[3].style.visibility = "hidden";
+    flags.innerText = `${--flagged}`;
 }
 
 function timing() {
@@ -244,4 +252,16 @@ function timing() {
         time++;
         timer.innerText = `${time}s`;
     }
+}
+
+function countMines(board){
+    let tmpMines = 0;
+    for (let i = 0; i < gridSize ; i++) {
+        for (let j = 0; j < gridSize ; j++) {
+            if(board[i][j]==="bomb"){
+                tmpMines++;
+            }
+        }
+    }
+    return tmpMines;
 }
