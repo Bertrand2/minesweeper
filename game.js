@@ -51,7 +51,7 @@ function generateGrid(bombAmount = 10){
 
     time = 0;
     gameRunning = true;
-    let timeInterval = setInterval(timing, 1000);
+    timeInterval = setInterval(timing, 1000);
 
 }
 
