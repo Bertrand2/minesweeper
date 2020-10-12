@@ -22,6 +22,13 @@ header{
     margin: 15px;
 }
 
+main{
+    width: var(--size-grid);
+    height: var(--size-grid);
+
+    border: var(--size-border) solid #999999;
+}
+
 .gameContainer{
     display: flex;
     flex-direction: row;
@@ -30,8 +37,6 @@ header{
 
     width: var(--size-grid);
     height: var(--size-grid);
-
-    border: var(--size-border) solid #999999;
 }
 
 .cell{
@@ -46,10 +51,21 @@ header{
 
     image-rendering: crisp-edges;
 }
-
 .cell>.hidden:hover{
     visibility: hidden;
 }
 .hover:hover+.hidden{
+    visibility: hidden;
+}
+
+#gameover{
+    position: relative;
+    bottom: var(--size-grid);
+
+    width: var(--size-grid);
+    height: var(--size-grid);
+    
+    opacity: 0;
+    transition: opacity 1s;
     visibility: hidden;
 }

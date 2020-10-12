@@ -12,6 +12,8 @@ generateGrid(10);
 
 newGameButton.addEventListener("click" , ()=>{
     gameBox.innerHTML="";
+    document.getElementById("gameover").style.opacity = 0;
+    document.getElementById("gameover").style.visibility = "hidden";
     generateGrid(parseInt(input.value));
 });
 
@@ -121,7 +123,12 @@ function revealCell(cells,i){
 
     cells[i].isRevealed = "true";
 
-    console.log(cells[i].firstChild.src)
+    if(cells[i].firstChild.src.endsWith("bomb.png")){
+        document.getElementById("gameover").style.visibility = "visible";
+        document.getElementById("gameover").style.opacity = "100%";
+    }
+
+    console.log(cells[i].firstChild.src);
     if(cells[i].firstChild.src.endsWith("0.png")){
         if(i%gridSize === 0){
             if(Math.floor(i/gridSize) === 0){
