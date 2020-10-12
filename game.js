@@ -13,6 +13,7 @@ generateGrid(10);
 
 newGameButton.addEventListener("click" , ()=>{
     gameRunning = false;
+    clearInterval(timeInterval);
     gameBox.innerHTML="";
     document.getElementById("gameover").style.opacity = 0;
     document.getElementById("gameover").style.visibility = "hidden";
@@ -50,7 +51,7 @@ function generateGrid(bombAmount = 10){
 
     time = 0;
     gameRunning = true;
-    timeInterval = setInterval(timing, 1000);
+    let timeInterval = setInterval(timing, 1000);
 
 }
 
@@ -239,9 +240,7 @@ function removeFlag(cell){
 }
 
 function timing() {
-    if (!gameRunning) {
-        clearInterval(timeInterval);
-    } else {
+    if (gameRunning) {
         time++;
         timer.innerText = `${time}s`;
     }
