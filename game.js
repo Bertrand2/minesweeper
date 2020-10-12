@@ -14,6 +14,8 @@ newGameButton.addEventListener("click" , ()=>{
     gameBox.innerHTML="";
     document.getElementById("gameover").style.opacity = 0;
     document.getElementById("gameover").style.visibility = "hidden";
+    document.getElementById("victory").style.opacity = 0;
+    document.getElementById("victory").style.visibility = "hidden";
     generateGrid(parseInt(input.value));
 });
 
@@ -32,21 +34,16 @@ function generateGrid(bombAmount = 10){
 
     for(let i=0 ; i<cells.length ; i++){
         cells[i].addEventListener("click", ()=>{
-            revealCell(cells,i);
+            revealCell(cells,i,bombAmount);
         });
     }
 }
 
 function placeBombs(board, bombAmount){
 
-    console.log(bombAmount);
-
     bombs = [...Array(bombAmount)].map( ()=>[Math.floor(Math.random()*gridSize), Math.floor(Math.random()*gridSize)]);
 
-    console.log(bombs);
-
     for(let i=0 ; i<bombAmount ; i++){
-        console.log(`${bombs[i][0]} ; ${bombs[i][1]}`);
         board[bombs[i][0]][bombs[i][1]] = "bomb";
     }
 
@@ -82,6 +79,8 @@ function displayGrid(gameBox, board){
         for(let j=0 ; j<gridSize ; j++){
 
             gameBox.appendChild(createNewCell(board[i][j]));
+            gameBox.lastChild.isRevealed = "false";
+            console.log(gameBox.lastChild.isRevealed);
 
         }
     }
@@ -95,7 +94,6 @@ function createNewCell(content){
     newCell.setAttribute("isRevealed", "false");
 
     let image = document.createElement("img");
-    //image.style.visibility = "hidden";
     image.setAttribute("src" , `assets/${content}.png`);
     newCell.appendChild(image);
 
@@ -112,7 +110,9 @@ function createNewCell(content){
     return newCell;
 }
 
-function revealCell(cells,i){
+function revealCell(cells,i,bombAmount){
+
+    checkGameEnd(cells,i,bombAmount);
 
     if(cells[i].isRevealed === "true"){
         return;
@@ -123,12 +123,6 @@ function revealCell(cells,i){
 
     cells[i].isRevealed = "true";
 
-    if(cells[i].firstChild.src.endsWith("bomb.png")){
-        document.getElementById("gameover").style.visibility = "visible";
-        document.getElementById("gameover").style.opacity = "100%";
-    }
-
-    console.log(cells[i].firstChild.src);
     if(cells[i].firstChild.src.endsWith("0.png")){
         if(i%gridSize === 0){
             if(Math.floor(i/gridSize) === 0){
@@ -186,5 +180,32 @@ function revealCell(cells,i){
                 revealCell(cells,i+9);
             }
         }
+    }
+
+    checkGameEnd(cells,i,bombAmount);
+}
+
+function checkGameEnd(cells,i,bombAmount){
+    //defeat
+    if(cells[i].firstChild.src.endsWith("bomb.png")){
+        console.log("Defeat !");
+        document.getElementById("gameover").style.visibility = "visible";
+        document.getElementById("gameover").style.opacity = "100%";
+    }
+    //victory
+    let remainingCells = 0;
+
+    for (let i = 0; i < cells.length; i++) {
+        if(cells[i].isRevealed === "false"){
+            remainingCells++;
+        }
+    }
+
+    console.log(remainingCells);
+
+    if(remainingCells === bombAmount){
+        console.log("Victory !");
+        document.getElementById("victory").style.visibility = "visible";
+        document.getElementById("victory").style.opacity = "100%";
     }
 }

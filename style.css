@@ -27,6 +27,8 @@ main{
     height: var(--size-grid);
 
     border: var(--size-border) solid #999999;
+
+    position: relative;
 }
 
 .gameContainer{
@@ -59,8 +61,22 @@ main{
 }
 
 #gameover{
-    position: relative;
-    bottom: var(--size-grid);
+    position: absolute;
+    top: 0;
+    left: 0;
+
+    width: var(--size-grid);
+    height: var(--size-grid);
+    
+    opacity: 0;
+    transition: opacity 1s;
+    visibility: hidden;
+}
+
+#victory{
+    position: absolute;
+    top: 0;
+    left: 0;
 
     width: var(--size-grid);
     height: var(--size-grid);
